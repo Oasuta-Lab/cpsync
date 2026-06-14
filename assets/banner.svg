@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 400" width="1280" height="400">
 
-  <!-- Background — charcoal, same as Oasuta Lab -->
-  <rect width="1280" height="400" fill="#2e2e2e"/>
+  <!-- Background — exact Oasuta Lab color -->
+  <rect width="1280" height="400" fill="#27272A"/>
 
   <!-- ── Left: text content ── -->
 
@@ -15,40 +15,39 @@
         font-family="'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
         font-size="26" fill="#8a9099">Cross-platform clipboard sync</text>
 
-  <!-- Flow pills — sage / blue / peach matching brand palette -->
+  <!-- Flow pills — exact logo colors -->
   <!-- iOS — sage green -->
-  <rect x="84" y="278" width="76" height="34" rx="17" fill="#87a882" fill-opacity="0.18" stroke="#87a882" stroke-width="1.5"/>
+  <rect x="84" y="278" width="76" height="34" rx="17" fill="#A3B18A" fill-opacity="0.18" stroke="#A3B18A" stroke-width="1.5"/>
   <text x="122" y="300" text-anchor="middle"
         font-family="'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="13" font-weight="600" fill="#87a882">iOS</text>
+        font-size="13" font-weight="600" fill="#A3B18A">iOS</text>
 
   <text x="174" y="300" font-family="sans-serif" font-size="15" fill="#555d66">→</text>
 
   <!-- Server — steel blue -->
-  <rect x="196" y="278" width="96" height="34" rx="17" fill="#7d9baf" fill-opacity="0.18" stroke="#7d9baf" stroke-width="1.5"/>
+  <rect x="196" y="278" width="96" height="34" rx="17" fill="#8FA3B0" fill-opacity="0.18" stroke="#8FA3B0" stroke-width="1.5"/>
   <text x="244" y="300" text-anchor="middle"
         font-family="'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="13" font-weight="600" fill="#7d9baf">Server</text>
+        font-size="13" font-weight="600" fill="#8FA3B0">Server</text>
 
   <text x="306" y="300" font-family="sans-serif" font-size="15" fill="#555d66">→</text>
 
   <!-- Windows — peach -->
-  <rect x="328" y="278" width="106" height="34" rx="17" fill="#d08060" fill-opacity="0.18" stroke="#d08060" stroke-width="1.5"/>
+  <rect x="328" y="278" width="106" height="34" rx="17" fill="#E9A178" fill-opacity="0.18" stroke="#E9A178" stroke-width="1.5"/>
   <text x="381" y="300" text-anchor="middle"
         font-family="'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="13" font-weight="600" fill="#d08060">Windows</text>
+        font-size="13" font-weight="600" fill="#E9A178">Windows</text>
 
-  <!-- ── Right: three overlapping circles — Oasuta Lab motif ── -->
+  <!-- ── Right: three overlapping circles — exact logo colors ── -->
   <!--
-    Circles centered at y=180, r=95, spacing=140 (50px overlap each)
-    cx1=825  cx2=965  cx3=1105
-    Colors: sage green / steel blue / peach
+    r=95, spacing=150 (matching logo overlap ratio)
+    cx: 830 / 980 / 1130   cy: 180
   -->
-  <circle cx="825"  cy="180" r="95" fill="#87a882"/>
-  <circle cx="965"  cy="180" r="95" fill="#7d9baf"/>
-  <circle cx="1105" cy="180" r="95" fill="#d08060"/>
+  <circle cx="830"  cy="180" r="95" fill="#A3B18A"/>
+  <circle cx="980"  cy="180" r="95" fill="#8FA3B0"/>
+  <circle cx="1130" cy="180" r="95" fill="#E9A178"/>
 
-  <!-- Red-orange accent bar — under circle 3, same as Oasuta Lab -->
-  <rect x="1025" y="305" width="160" height="14" rx="7" fill="#c94228"/>
+  <!-- Red bar — sharp rectangle (no rx), centered under peach circle -->
+  <rect x="1035" y="305" width="190" height="28" fill="#E35336"/>
 
 </svg>
