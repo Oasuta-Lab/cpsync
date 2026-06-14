@@ -3,36 +3,17 @@
   <!-- Background — charcoal, same as Oasuta Lab -->
   <rect width="1024" height="1024" rx="224" fill="#2e2e2e"/>
 
-  <!-- Clipboard body -->
-  <rect x="172" y="252" width="460" height="560" rx="48" fill="white" opacity="0.95"/>
-
-  <!-- Clipboard clip -->
-  <rect x="302" y="220" width="200" height="80" rx="20" fill="white" opacity="0.95"/>
-  <!-- Clip hole -->
-  <ellipse cx="402" cy="252" rx="54" ry="28" fill="#2e2e2e"/>
-
-  <!-- Content lines — brand palette: sage / blue / peach -->
-  <rect x="232" y="390" width="340" height="22" rx="11" fill="#87a882"/>
-  <rect x="232" y="436" width="270" height="22" rx="11" fill="#87a882" opacity="0.55"/>
-  <rect x="232" y="482" width="310" height="22" rx="11" fill="#7d9baf"/>
-  <rect x="232" y="528" width="230" height="22" rx="11" fill="#7d9baf" opacity="0.55"/>
-  <rect x="232" y="574" width="270" height="22" rx="11" fill="#d08060" opacity="0.75"/>
-
-  <!-- Sync badge — red-orange accent -->
-  <circle cx="750" cy="760" r="148" fill="#1c1c1c" opacity="0.6"/>
-  <circle cx="750" cy="760" r="135" fill="#c94228"/>
-
   <!--
-    Sync arrows: center (750,760), radius 65
-    Arc 1: 210° → 0°  clockwise  start=(694,728)  end=(815,760)
-    Arc 2: 30°  → 180° clockwise  start=(806,793)  end=(685,760)
+    Three overlapping circles — direct Oasuta Lab motif
+    r=170, spacing=255, centered at (512, 478)
+    cx: 257 / 512 / 767   cy: 478
+    Colors: sage green / steel blue / peach
   -->
-  <path d="M 694 728 A 65 65 0 0 1 815 760"
-        stroke="white" stroke-width="13" fill="none" stroke-linecap="round"/>
-  <polygon points="815,760 806,745 824,745" fill="white"/>
+  <circle cx="257" cy="478" r="170" fill="#87a882"/>
+  <circle cx="512" cy="478" r="170" fill="#7d9baf"/>
+  <circle cx="767" cy="478" r="170" fill="#d08060"/>
 
-  <path d="M 806 793 A 65 65 0 0 1 685 760"
-        stroke="white" stroke-width="13" fill="none" stroke-linecap="round"/>
-  <polygon points="685,760 676,775 694,775" fill="white"/>
+  <!-- Red-orange accent bar — under circle 3, right-aligned (matches logo) -->
+  <rect x="682" y="693" width="255" height="26" rx="13" fill="#c94228"/>
 
 </svg>
