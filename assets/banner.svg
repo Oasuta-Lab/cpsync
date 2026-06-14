@@ -1,31 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 400" width="1280" height="400">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1280" y2="400" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#0f172a"/>
-      <stop offset="100%" stop-color="#1e3a8a"/>
-    </linearGradient>
-    <linearGradient id="badge-g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#06b6d4"/>
-      <stop offset="100%" stop-color="#3b82f6"/>
-    </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
 
-  <!-- Background -->
-  <rect width="1280" height="400" fill="url(#bg)"/>
-
-  <!-- Subtle glow behind right element -->
-  <ellipse cx="1000" cy="200" rx="340" ry="260" fill="url(#glow)"/>
-
-  <!-- Decorative dots grid (top-right) -->
-  <g fill="#334155" opacity="0.5">
-    <circle cx="700" cy="40"  r="2.5"/><circle cx="740" cy="40"  r="2.5"/><circle cx="780" cy="40"  r="2.5"/>
-    <circle cx="700" cy="80"  r="2.5"/><circle cx="740" cy="80"  r="2.5"/><circle cx="780" cy="80"  r="2.5"/>
-    <circle cx="700" cy="120" r="2.5"/><circle cx="740" cy="120" r="2.5"/><circle cx="780" cy="120" r="2.5"/>
-  </g>
+  <!-- Background — charcoal, same as Oasuta Lab -->
+  <rect width="1280" height="400" fill="#2e2e2e"/>
 
   <!-- ── Left: text content ── -->
 
@@ -35,72 +11,44 @@
         font-size="100" font-weight="700" letter-spacing="-3" fill="white">CpSync</text>
 
   <!-- Tagline -->
-  <text x="82" y="240"
+  <text x="84" y="240"
         font-family="'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="26" fill="#94a3b8">Cross-platform clipboard sync</text>
+        font-size="26" fill="#8a9099">Cross-platform clipboard sync</text>
 
-  <!-- Flow pills: iOS → Server → Windows -->
-  <!-- iOS -->
-  <rect x="82" y="278" width="76" height="34" rx="17" fill="#06b6d4" fill-opacity="0.15" stroke="#06b6d4" stroke-width="1.5"/>
-  <text x="120" y="300" text-anchor="middle"
+  <!-- Flow pills — sage / blue / peach matching brand palette -->
+  <!-- iOS — sage green -->
+  <rect x="84" y="278" width="76" height="34" rx="17" fill="#87a882" fill-opacity="0.18" stroke="#87a882" stroke-width="1.5"/>
+  <text x="122" y="300" text-anchor="middle"
         font-family="'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="13" font-weight="600" fill="#06b6d4">iOS</text>
+        font-size="13" font-weight="600" fill="#87a882">iOS</text>
 
-  <!-- Arrow -->
-  <text x="172" y="300"
-        font-family="sans-serif" font-size="16" fill="#475569">→</text>
+  <text x="174" y="300" font-family="sans-serif" font-size="15" fill="#555d66">→</text>
 
-  <!-- Server -->
-  <rect x="194" y="278" width="96" height="34" rx="17" fill="#818cf8" fill-opacity="0.15" stroke="#818cf8" stroke-width="1.5"/>
-  <text x="242" y="300" text-anchor="middle"
+  <!-- Server — steel blue -->
+  <rect x="196" y="278" width="96" height="34" rx="17" fill="#7d9baf" fill-opacity="0.18" stroke="#7d9baf" stroke-width="1.5"/>
+  <text x="244" y="300" text-anchor="middle"
         font-family="'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="13" font-weight="600" fill="#818cf8">Server</text>
+        font-size="13" font-weight="600" fill="#7d9baf">Server</text>
 
-  <!-- Arrow -->
-  <text x="304" y="300"
-        font-family="sans-serif" font-size="16" fill="#475569">→</text>
+  <text x="306" y="300" font-family="sans-serif" font-size="15" fill="#555d66">→</text>
 
-  <!-- Windows -->
-  <rect x="326" y="278" width="106" height="34" rx="17" fill="#3b82f6" fill-opacity="0.15" stroke="#3b82f6" stroke-width="1.5"/>
-  <text x="379" y="300" text-anchor="middle"
+  <!-- Windows — peach -->
+  <rect x="328" y="278" width="106" height="34" rx="17" fill="#d08060" fill-opacity="0.18" stroke="#d08060" stroke-width="1.5"/>
+  <text x="381" y="300" text-anchor="middle"
         font-family="'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="13" font-weight="600" fill="#3b82f6">Windows</text>
+        font-size="13" font-weight="600" fill="#d08060">Windows</text>
 
-  <!-- ── Right: clipboard + sync badge ── -->
-
-  <!-- Clipboard body -->
-  <rect x="840" y="38" width="300" height="350" rx="36" fill="white" opacity="0.95"/>
-
-  <!-- Clipboard clip -->
-  <rect x="940" y="12" width="160" height="60" rx="16" fill="white" opacity="0.95"/>
-  <!-- Clip hole -->
-  <ellipse cx="1020" cy="38" rx="44" ry="22" fill="url(#bg)"/>
-
-  <!-- Content lines -->
-  <rect x="892" y="138" width="200" height="16" rx="8" fill="#cbd5e1"/>
-  <rect x="892" y="170" width="160" height="16" rx="8" fill="#cbd5e1"/>
-  <rect x="892" y="202" width="185" height="16" rx="8" fill="#cbd5e1"/>
-  <rect x="892" y="234" width="135" height="16" rx="8" fill="#e2e8f0"/>
-  <rect x="892" y="266" width="160" height="16" rx="8" fill="#e2e8f0"/>
-
-  <!-- Sync badge (center: 1100, 320) -->
-  <circle cx="1100" cy="320" r="100" fill="#0a0f1e" opacity="0.5"/>
-  <circle cx="1100" cy="320" r="90"  fill="url(#badge-g)"/>
-
+  <!-- ── Right: three overlapping circles — Oasuta Lab motif ── -->
   <!--
-    Sync arrows: center (1100,320), radius 44
-    Arc 1: 210° → 0°  clockwise
-      start: (1100 + 44·cos210°, 320 + 44·sin210°) = (1062, 298)
-      end:   (1144, 320)
-    Arc 2: 30°  → 180° clockwise
-      start: (1138, 342)
-      end:   (1056, 320)
+    Circles centered at y=180, r=95, spacing=140 (50px overlap each)
+    cx1=825  cx2=965  cx3=1105
+    Colors: sage green / steel blue / peach
   -->
-  <path d="M 1062 298 A 44 44 0 0 1 1144 320"
-        stroke="white" stroke-width="9" fill="none" stroke-linecap="round"/>
-  <polygon points="1144,320 1137,308 1151,308" fill="white"/>
+  <circle cx="825"  cy="180" r="95" fill="#87a882"/>
+  <circle cx="965"  cy="180" r="95" fill="#7d9baf"/>
+  <circle cx="1105" cy="180" r="95" fill="#d08060"/>
 
-  <path d="M 1138 342 A 44 44 0 0 1 1056 320"
-        stroke="white" stroke-width="9" fill="none" stroke-linecap="round"/>
-  <polygon points="1056,320 1049,332 1063,332" fill="white"/>
+  <!-- Red-orange accent bar — under circle 3, same as Oasuta Lab -->
+  <rect x="1025" y="305" width="160" height="14" rx="7" fill="#c94228"/>
+
 </svg>
