@@ -4,16 +4,22 @@
   <rect width="1024" height="1024" rx="224" fill="#2e2e2e"/>
 
   <!--
-    Three overlapping circles — direct Oasuta Lab motif
-    r=170, spacing=255, centered at (512, 478)
-    cx: 257 / 512 / 767   cy: 478
+    Three overlapping circles — Oasuta Lab motif
+    r=170, spacing=255, shifted up to cy=420 to leave room for label
+    cx: 257 / 512 / 767   cy: 420
     Colors: sage green / steel blue / peach
   -->
-  <circle cx="257" cy="478" r="170" fill="#87a882"/>
-  <circle cx="512" cy="478" r="170" fill="#7d9baf"/>
-  <circle cx="767" cy="478" r="170" fill="#d08060"/>
+  <circle cx="257" cy="420" r="170" fill="#87a882"/>
+  <circle cx="512" cy="420" r="170" fill="#7d9baf"/>
+  <circle cx="767" cy="420" r="170" fill="#d08060"/>
 
-  <!-- Red-orange accent bar — under circle 3, right-aligned (matches logo) -->
-  <rect x="682" y="693" width="255" height="26" rx="13" fill="#c94228"/>
+  <!-- Red-orange accent bar — under circle 3, right-aligned -->
+  <rect x="682" y="632" width="255" height="26" rx="13" fill="#c94228"/>
+
+  <!-- App name -->
+  <text x="512" y="820"
+        font-family="'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="88" font-weight="700" letter-spacing="6"
+        fill="white" text-anchor="middle">cpsync</text>
 
 </svg>
