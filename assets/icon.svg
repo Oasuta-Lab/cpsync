@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1024" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="badge-g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="224" fill="url(#bg)"/>
+
+  <!-- Clipboard body -->
+  <rect x="172" y="252" width="460" height="560" rx="48" fill="white" opacity="0.95"/>
+
+  <!-- Clipboard clip -->
+  <rect x="302" y="220" width="200" height="80" rx="20" fill="white" opacity="0.95"/>
+  <!-- Clip hole -->
+  <ellipse cx="402" cy="252" rx="54" ry="28" fill="url(#bg)"/>
+
+  <!-- Content lines -->
+  <rect x="232" y="390" width="340" height="22" rx="11" fill="#cbd5e1"/>
+  <rect x="232" y="436" width="270" height="22" rx="11" fill="#cbd5e1"/>
+  <rect x="232" y="482" width="310" height="22" rx="11" fill="#cbd5e1"/>
+  <rect x="232" y="528" width="230" height="22" rx="11" fill="#e2e8f0"/>
+  <rect x="232" y="574" width="270" height="22" rx="11" fill="#e2e8f0"/>
+
+  <!-- Sync badge (center: 750,760 — overlaps clipboard lower-right) -->
+  <circle cx="750" cy="760" r="148" fill="#0a0f1e" opacity="0.5"/>
+  <circle cx="750" cy="760" r="135" fill="url(#badge-g)"/>
+
+  <!--
+    Sync arrows: circle center (750,760), radius 65
+    Arc 1: 210° → 0°  clockwise (150° arc, via top)
+      start: (750 + 65·cos210°, 760 + 65·sin210°) = (694, 728)
+      end:   (750 + 65, 760)                        = (815, 760)
+    Arc 2: 30°  → 180° clockwise (150° arc, via bottom)
+      start: (750 + 65·cos30°,  760 + 65·sin30°)  = (806, 793)
+      end:   (750 − 65, 760)                        = (685, 760)
+  -->
+
+  <!-- Arc 1 -->
+  <path d="M 694 728 A 65 65 0 0 1 815 760"
+        stroke="white" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <!-- Arrowhead at (815,760) pointing down -->
+  <polygon points="815,760 806,745 824,745" fill="white"/>
+
+  <!-- Arc 2 -->
+  <path d="M 806 793 A 65 65 0 0 1 685 760"
+        stroke="white" stroke-width="13" fill="none" stroke-linecap="round"/>
+  <!-- Arrowhead at (685,760) pointing up -->
+  <polygon points="685,760 676,775 694,775" fill="white"/>
+</svg>
