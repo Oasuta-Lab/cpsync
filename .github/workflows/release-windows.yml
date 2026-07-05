@@ -1,0 +1,42 @@
+name: Release - Windows
+
+on:
+  push:
+    tags:
+      - "windows-v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: apps/windows
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build executable
+        run: |
+          pyinstaller --onefile --windowed --name CpSyncTray clipboard_tray.py
+
+      - name: Zip artifact
+        run: Compress-Archive -Path dist/CpSyncTray.exe -DestinationPath CpSyncTray-${{ github.ref_name }}-windows.zip
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: CpSync Windows ${{ github.ref_name }}
+          files: apps/windows/CpSyncTray-${{ github.ref_name }}-windows.zip
+          generate_release_notes: true

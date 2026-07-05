@@ -39,7 +39,7 @@ The server reads the port from the `PORT` environment variable (defaults to `876
 
 ```bash
 cd apps/windows
-pip install aiohttp pyperclip pystray pillow windows-toasts
+pip install -r requirements.txt
 python clipboard_tray.py
 ```
 
@@ -48,6 +48,24 @@ On first launch a dialog asks for your server host and room secret. Config is sa
 ### 3. iOS
 
 Open `apps/ios/CpSync.xcodeproj` in Xcode and run on your device. On first launch the Settings screen opens — enter your server URL and room secret.
+
+## Releases
+
+Each app ships independently via its own tag prefix. Pushing a tag triggers a GitHub Actions
+workflow that builds the artifact and publishes a GitHub Release:
+
+| Tag pattern | Workflow | Artifact |
+|-------------|----------|----------|
+| `windows-v1.2.0` | [release-windows.yml](.github/workflows/release-windows.yml) | Standalone `CpSyncTray.exe`, zipped |
+| `server-v1.2.0` | [release-server.yml](.github/workflows/release-server.yml) | Zipped source (`server.py`, `requirements.txt`) |
+| `ios-v1.2.0` | [release-ios.yml](.github/workflows/release-ios.yml) | Zipped source (build locally in Xcode — not signed/built in CI) |
+
+To cut a release:
+
+```bash
+git tag windows-v1.2.0
+git push origin windows-v1.2.0
+```
 
 ## Security
 

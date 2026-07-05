@@ -1,0 +1,5 @@
+aiohttp>=3.9,<4.0
+pyperclip>=1.8,<2.0
+pystray>=0.19,<1.0
+pillow>=10.0
+windows-toasts>=1.0

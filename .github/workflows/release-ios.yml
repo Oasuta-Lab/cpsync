@@ -1,0 +1,32 @@
+name: Release - iOS
+
+on:
+  push:
+    tags:
+      - "ios-v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Zip source
+        run: |
+          zip -r cpsync-ios-${{ github.ref_name }}.zip apps/ios
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: CpSync iOS ${{ github.ref_name }}
+          files: cpsync-ios-${{ github.ref_name }}.zip
+          generate_release_notes: true
+          body: |
+            Source-only release. This app is not code-signed or built here since it
+            requires a Mac with Xcode and an Apple developer signing certificate.
+
+            To run it: open `apps/ios/CpSync.xcodeproj` in Xcode and build to your device.
