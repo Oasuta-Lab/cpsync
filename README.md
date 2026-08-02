@@ -1,6 +1,6 @@
 # CpSync
 
-<img src="assets/banner.svg" alt="CpSync banner" width="100%"/>
+<img src="assets/banner.png" alt="CpSync banner" width="100%"/>
 
 Cross-platform clipboard sync — copy on iOS, paste on Windows instantly.
 

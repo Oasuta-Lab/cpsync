@@ -28,6 +28,9 @@ except ImportError:
     _toasts_available = False
 
 CONFIG_PATH = Path(__file__).parent / "config.json"
+# PyInstaller --onefile unpacks bundled data (see --add-data in release-windows.yml)
+# into sys._MEIPASS at runtime; fall back to the script dir when running from source.
+ICON_PATH = Path(getattr(sys, "_MEIPASS", Path(__file__).parent)) / "icon.ico"
 HISTORY_SIZE = 10
 
 status = {"connected": False, "muted": False}
@@ -76,6 +79,10 @@ def show_config_dialog(on_save=None):
     root.title("CpSync — Configure")
     root.resizable(False, False)
     root.attributes("-topmost", True)
+    try:
+        root.iconbitmap(default=str(ICON_PATH))
+    except tk.TclError:
+        pass
 
     frame = ttk.Frame(root, padding=20)
     frame.grid(sticky="nsew")

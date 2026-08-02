@@ -1,31 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
 
-  <!-- Background — exact Oasuta Lab color -->
-  <rect width="1024" height="1024" rx="224" fill="#27272A"/>
+  <!-- Card — classic (prod) fill and border ring -->
+  <rect x="24" y="24" width="976" height="976" rx="200" fill="#F0F1EA" stroke="#A3B18A" stroke-width="48"/>
 
-  <!--
-    Three overlapping circles — scaled from original 650×650 logo
-    Original: r=100, spacing=160, cy=307
-    Scaled ×1.575 → r=158, spacing=252, cy=465
-    cx: 260 / 512 / 764
-    Colors: exact logo values
-  -->
-  <circle cx="260" cy="465" r="158" fill="#A3B18A"/>
-  <circle cx="512" cy="465" r="158" fill="#8FA3B0"/>
-  <circle cx="764" cy="465" r="158" fill="#E9A178"/>
+  <!-- Three overlapping circles — exact logo colors -->
+  <circle cx="262" cy="400" r="150" fill="#A3B18A"/>
+  <circle cx="512" cy="400" r="150" fill="#8FA3B0"/>
+  <circle cx="762" cy="400" r="150" fill="#E9A178"/>
 
-  <!--
-    Red bar — sharp rectangle (no rx), centered under peach circle
-    width = 2×r = 316, height = 76 (enlarged to fit label inside)
-    x = cx3 − r = 764 − 158 = 606
-    Centered vertically between circle bottom (623) and canvas bottom
-  -->
-  <rect x="606" y="638" width="316" height="76" fill="#E35336"/>
+  <!-- Red bar — sharp rectangle, full width -->
+  <rect x="140" y="600" width="744" height="112" fill="#E35336"/>
 
-  <!-- "cpsync" label inside the bar -->
-  <text x="764" y="676"
+  <!-- "CPSYNC" label inside the bar -->
+  <text x="512" y="658"
         font-family="'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="46" font-weight="700" letter-spacing="5"
-        fill="white" text-anchor="middle" dominant-baseline="central">cpsync</text>
+        font-size="64" font-weight="800" letter-spacing="8"
+        fill="white" text-anchor="middle" dominant-baseline="central">CPSYNC</text>
 
 </svg>

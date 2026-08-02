@@ -28,7 +28,7 @@ jobs:
 
       - name: Build executable
         run: |
-          pyinstaller --onefile --windowed --name CpSyncTray clipboard_tray.py
+          pyinstaller --onefile --windowed --name CpSyncTray --icon icon.ico --add-data "icon.ico;." clipboard_tray.py
 
       - name: Zip artifact
         run: Compress-Archive -Path dist/CpSyncTray.exe -DestinationPath CpSyncTray-${{ github.ref_name }}-windows.zip
