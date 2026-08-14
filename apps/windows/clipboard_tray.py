@@ -5,6 +5,7 @@ Runs in the system tray; receives clipboard from iOS via WebSocket.
 
 import asyncio
 import json
+import os
 import signal
 import sys
 import threading
@@ -27,7 +28,10 @@ try:
 except ImportError:
     _toasts_available = False
 
-CONFIG_PATH = Path(__file__).parent / "config.json"
+# %APPDATA% survives app restarts and reboots; the PyInstaller --onefile temp
+# extraction dir (where __file__ would otherwise point) is wiped on exit.
+CONFIG_DIR = Path(os.environ.get("APPDATA", Path.home())) / "CpSync"
+CONFIG_PATH = CONFIG_DIR / "config.json"
 # PyInstaller --onefile unpacks bundled data (see --add-data in release-windows.yml)
 # into sys._MEIPASS at runtime; fall back to the script dir when running from source.
 ICON_PATH = Path(getattr(sys, "_MEIPASS", Path(__file__).parent)) / "icon.ico"
@@ -51,6 +55,7 @@ def _load_config() -> dict:
 
 
 def _save_config(host: str, secret: str):
+    CONFIG_DIR.mkdir(parents=True, exist_ok=True)
     CONFIG_PATH.write_text(json.dumps({"host": host, "secret": secret}, indent=2))
 
 
