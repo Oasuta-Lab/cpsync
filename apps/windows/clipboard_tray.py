@@ -174,12 +174,19 @@ def notify_clipboard(text: str):
 
 # ── Tray ──────────────────────────────────────
 
+# Brand mark (phone -> laptop), see assets/logo/build.py `symbol_small`: rounded rects on a 256 grid.
+MARK_RECTS = (((8, 48, 88, 160, 22), True), ((44, 84, 36, 36, 10), False),      # phone, hole
+              ((128, 48, 120, 108, 20), True), ((148, 68, 80, 68, 6), False),   # laptop screen, cavity
+              ((164, 84, 36, 36, 10), True), ((120, 176, 128, 32, 16), True))   # piece, keyboard
+
+
 def create_icon_image(color="grey"):
-    img = Image.new("RGB", (64, 64), color=color)
+    """The mark in the connection-state colour; drawn at 256 px and downsampled for anti-aliasing."""
+    img = Image.new("RGBA", (256, 256), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-    draw.rectangle([16, 16, 48, 48], fill="white")
-    draw.rectangle([24, 28, 40, 36], fill=color)
-    return img
+    for (x, y, w, h, r), solid in MARK_RECTS:
+        draw.rounded_rectangle([x, y, x + w, y + h], radius=r, fill=color if solid else (0, 0, 0, 0))
+    return img.resize((64, 64), Image.LANCZOS)
 
 
 def add_to_history(text: str):

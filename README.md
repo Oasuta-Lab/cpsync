@@ -184,6 +184,11 @@ git push origin windows-v1.2.0
 - The server is a stateless relay: it never stores clipboard content, only forwards messages between peers in the same room.
 - Use a strong, random room secret to prevent unauthorized access.
 
+## Brand assets
+
+Logo masters, delivery variants (black/white/mono, favicon, app icons) and the one-page usage guide live in
+[`assets/logo`](assets/logo) (`GUIDELINES.md`). Regenerate the masters with `python3 assets/logo/build.py`.
+
 ## License
 
 MIT

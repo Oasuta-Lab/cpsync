@@ -22,7 +22,7 @@ from dbus_next.aio import MessageBus
 os.environ.setdefault("QT_QPA_PLATFORM", "wayland;xcb")
 
 from PySide6.QtCore import QObject, Qt, Signal  # noqa: E402
-from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPixmap  # noqa: E402
+from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPainterPath, QPixmap  # noqa: E402
 from PySide6.QtWidgets import (  # noqa: E402
     QApplication, QCheckBox, QDialog, QDialogButtonBox, QFormLayout, QHBoxLayout,
     QLabel, QLineEdit, QListWidget, QListWidgetItem, QMenu, QPushButton,
@@ -210,12 +210,24 @@ class Notifier:
 
 # ── UI (tray + window) ────────────────────────
 
+# Brand mark (phone -> laptop), see assets/logo/build.py `symbol_small`. Rounded rects on a 256 grid;
+# with odd-even fill the nested rects become holes and the piece inside the screen is filled again.
+MARK_RECTS = ((8, 48, 88, 160, 22), (44, 84, 36, 36, 10),      # phone, hole
+              (128, 48, 120, 108, 20), (148, 68, 80, 68, 6),   # laptop screen, cavity
+              (164, 84, 36, 36, 10), (120, 176, 128, 32, 16))  # piece, keyboard
+
+
 def make_icon(color: str) -> QIcon:
+    """The mark in the connection-state colour on a transparent 64 px pixmap."""
     pm = QPixmap(64, 64)
-    pm.fill(QColor(color))
+    pm.fill(Qt.GlobalColor.transparent)
+    path = QPainterPath()
+    for x, y, w, h, r in MARK_RECTS:
+        path.addRoundedRect(x, y, w, h, r, r)
     p = QPainter(pm)
-    p.fillRect(16, 16, 32, 32, QColor("white"))
-    p.fillRect(24, 28, 16, 8, QColor(color))
+    p.setRenderHint(QPainter.RenderHint.Antialiasing)
+    p.scale(0.25, 0.25)
+    p.fillPath(path, QColor(color))
     p.end()
     return QIcon(pm)
 
