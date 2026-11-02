@@ -1,0 +1,37 @@
+{
+  "brand": "CpSync",
+  "tagline": "Copy on iOS, paste on Windows or Linux.",
+  "brief": "A self-hosted, open-source clipboard relay for developers and power users: copy on the phone, it lands on the desktop within seconds. Lives in the system tray. It should feel instant, light, private and multi-device, without the category clichés (clipboard clip, circular sync arrows, cloud).",
+  "adjectives": ["instant", "light", "private", "multi-device", "quiet"],
+  "criteria": "Reads as phone -> computer at a glance, survives 16-22 px as a tray icon in one colour, distinct from blue dev-tool marks.",
+  "industry": "software",
+  "nav": ["How it works", "Apps", "Releases"],
+  "brand_color": "#14161F",
+  "tile_color": "#14161F",
+  "greyscale": false,
+  "final": true,
+  "designer": "Oasuta Lab",
+  "round": 2,
+  "concepts": [
+    {
+      "name": "Phone to laptop",
+      "symbol": "cpsync-symbol.svg",
+      "lockup": "cpsync-horizontal.svg",
+      "stacked": "cpsync-stacked.svg",
+      "avatar": "cpsync-app-icon.svg",
+      "symbol_on_dark": "cpsync-symbol-ondark.svg",
+      "lockup_on_dark": "cpsync-horizontal-ondark.svg",
+      "symbol_on_tile": "cpsync-symbol-ondark.svg",
+      "lockup_on_tile": "cpsync-horizontal-ondark.svg",
+      "idea": "The piece cut out of the phone has landed inside the laptop: solid and hollow mirror each other, and the orange piece is the clipboard content in transit.",
+      "rationale": [
+        "Phone -> laptop reads at a glance, including at 16 px",
+        "Hole and piece face each other across the gap, so the link is visible without arrows",
+        "One colour works for the tray; the orange piece carries the brand in colour",
+        "Rounded-rectangle geometry on an 8-unit grid, one radius system"
+      ]
+    }
+  ],
+  "recommendation": "Final direction: phone to laptop, ink + signal orange.",
+  "next_steps": ["Replace icons in the repo", "Ship with the next Windows/Linux/iOS releases"]
+}
