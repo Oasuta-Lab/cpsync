@@ -2,15 +2,15 @@
 
 <img src="assets/banner.png" alt="CpSync banner" width="100%"/>
 
-Cross-platform clipboard sync — copy on iOS, paste on Windows instantly.
+Cross-platform clipboard sync — copy on iOS, paste on Windows or Linux instantly.
 
 ## How it works
 
-A lightweight WebSocket relay server connects an iOS app to a Windows tray client. Both sides share a **room secret** to pair with each other. When you copy something on iOS, it appears in your Windows clipboard within seconds.
+A lightweight WebSocket relay server connects an iOS app to a Windows or Linux tray client. Both sides share a **room secret** to pair with each other. When you copy something on iOS, it appears in your desktop clipboard within seconds.
 
 ```
-[iOS App] ──── WebSocket ────► [Server] ────► [Windows Tray]
-   copy                         relay              paste
+[iOS App] ──── WebSocket ────► [Server] ────► [Windows / Linux Tray]
+   copy                         relay                 paste
 ```
 
 ## Apps
@@ -20,11 +20,12 @@ A lightweight WebSocket relay server connects an iOS app to a Windows tray clien
 | [`apps/ios`](apps/ios) | Swift / SwiftUI | Monitors clipboard and sends changes over WebSocket |
 | [`apps/server`](apps/server) | Python / aiohttp | Self-hosted WebSocket relay server |
 | [`apps/windows`](apps/windows) | Python | System tray app that receives and writes to clipboard |
+| [`apps/linux`](apps/linux) | Python / PySide6 | Same thing for Linux (Wayland & X11), shipped as an AppImage |
 
 ## Usage
 
-> **Heads up on `wss://`:** both clients expect a **secure** WebSocket endpoint. The Windows
-> app hardcodes `wss://` and cannot connect to a plain `ws://` server at all. The iOS app lets
+> **Heads up on `wss://`:** all clients expect a **secure** WebSocket endpoint. The Windows and
+> Linux apps hardcode `wss://` and cannot connect to a plain `ws://` server at all. The iOS app lets
 > you type any scheme, but in practice you want TLS in front of the server for anything beyond
 > same-machine testing.
 
@@ -76,7 +77,7 @@ Apple Developer account needed to run on your own device).
    later):
    - **WebSocket URL** — the *full* URL including scheme and path, e.g.
      `wss://my-server.example.com/ws` (not just the hostname).
-   - **Room name / secret key** — must match the Windows app's room secret exactly.
+   - **Room name / secret key** — must match the Windows/Linux app's room secret exactly.
 5. Dismiss Settings to connect. The status card shows connected/disconnected; copying text
    anywhere on the device sends it automatically while connected, "Send Clipboard" forces an
    immediate send, and the history list below shows recent syncs in both directions.
@@ -105,7 +106,7 @@ On first launch (or whenever `config.json` is missing/incomplete) a dialog asks 
   no path. The app builds `wss://<host>/ws?room=<secret>` itself.
 - **Room secret** — must match the iOS app's room name exactly.
 
-Settings are saved next to the script (or the `.exe`) as `config.json`, which is git-ignored.
+Settings are saved to `%APPDATA%\CpSync\config.json`, so they survive restarts and updates.
 
 Once running, it lives entirely in the system tray:
 
@@ -113,9 +114,50 @@ Once running, it lives entirely in the system tray:
   red (disconnected, retrying every 5s).
 - Right-click the icon for the menu: live connection status, **Recent** (click any of the last
   10 synced items to copy it again), **Mute notifications**, **Configure…** (reopen the setup
-  dialog), and **Quit**.
+  dialog; saving reconnects immediately to the new server/room), and **Quit**.
 - Unless muted, a toast notification (with a "Copy again" action) and a system beep fire every
   time new clipboard content arrives from iOS.
+
+### 4. Linux app
+
+Same features as the Windows app, built with Qt (PySide6) so it runs natively on Wayland
+(tested on CachyOS + GNOME) as well as X11.
+
+- **Prebuilt release** — grab `CpSync-<version>-x86_64.AppImage` from the
+  [Releases](../../releases) page, `chmod +x` it, and run it. `wl-copy` is bundled, nothing to
+  install. Needs glibc ≥ 2.35 (Ubuntu 22.04 or newer, any rolling distro).
+- **From source**:
+  ```bash
+  cd apps/linux
+  pip install -r requirements.txt
+  python cpsync_tray.py        # needs wl-clipboard (Wayland) or xclip (X11) on PATH
+  ```
+
+Config is the same two fields (server host, room secret) and is saved to
+`~/.config/cpsync/config.json`.
+
+Tray vs. window: the app uses the system tray when the desktop offers one (KDE, Hyprland/waybar,
+GNOME **with** the [AppIndicator extension](https://extensions.gnome.org/extension/615/appindicator-support/)).
+Without a tray it falls back to a small window with the same controls: connection status,
+**Recent** list (click to copy), **Mute notifications**, **Configure…**, **Quit**.
+Saving the config reconnects immediately to the new server/room.
+
+Unless muted, every incoming item triggers a desktop notification with a "Copy again" button and
+a system sound (`message-new-instant` from the freedesktop sound theme, played with `pw-play`,
+`paplay` or `canberra-gtk-play`, whichever is installed). Recopying an item plays a shorter sound.
+No sound? Check the *Alert sounds* volume in your desktop's sound settings.
+
+> **AppImageLauncher users:** on first run it moves the AppImage to `~/Applications/` and adds a
+> menu entry. Launch it from there afterwards, and quit the old instance before running a new build.
+
+Build the AppImage locally:
+
+```bash
+cd apps/linux
+pip install -r requirements.txt pyinstaller
+./build-appimage.sh          # needs wl-copy and appimagetool on PATH (or $WL_COPY / $APPIMAGETOOL)
+python test_smoke.py         # offscreen sanity check, also run in CI before each release
+```
 
 ## Releases
 
@@ -125,6 +167,7 @@ workflow that builds the artifact and publishes a GitHub Release:
 | Tag pattern | Workflow | Artifact |
 |-------------|----------|----------|
 | `windows-v1.2.0` | [release-windows.yml](.github/workflows/release-windows.yml) | Standalone `CpSyncTray.exe`, zipped |
+| `linux-v1.2.0` | [release-linux.yml](.github/workflows/release-linux.yml) | `CpSync-<tag>-x86_64.AppImage` |
 | `server-v1.2.0` | [release-server.yml](.github/workflows/release-server.yml) | Zipped source (`server.py`, `requirements.txt`) |
 | `ios-v1.2.0` | [release-ios.yml](.github/workflows/release-ios.yml) | Zipped source (build locally in Xcode — not signed/built in CI) |
 

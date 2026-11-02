@@ -1,0 +1,48 @@
+name: Release - Linux
+
+on:
+  push:
+    tags:
+      - "linux-v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    # Oldest LTS runner = oldest glibc the AppImage will require (2.35).
+    runs-on: ubuntu-22.04
+    defaults:
+      run:
+        working-directory: apps/linux
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wl-clipboard libegl1 libxkbcommon0
+          pip install -r requirements.txt pyinstaller
+          curl -sSL -o appimagetool https://github.com/AppImage/appimagetool/releases/download/continuous/appimagetool-x86_64.AppImage
+          chmod +x appimagetool
+
+      - name: Smoke test
+        run: python test_smoke.py
+
+      - name: Build AppImage
+        run: APPIMAGETOOL="./appimagetool --appimage-extract-and-run" ./build-appimage.sh
+
+      - name: Rename artifact
+        run: mv CpSync-x86_64.AppImage CpSync-${{ github.ref_name }}-x86_64.AppImage
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: CpSync Linux ${{ github.ref_name }}
+          files: apps/linux/CpSync-${{ github.ref_name }}-x86_64.AppImage
+          generate_release_notes: true

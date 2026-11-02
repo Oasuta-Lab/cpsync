@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=CpSync
+Comment=Receive clipboard from iOS
+Exec=CpSync
+Icon=cpsync
+Categories=Utility;
+Terminal=false

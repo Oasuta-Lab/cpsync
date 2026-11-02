@@ -41,6 +41,7 @@ status = {"connected": False, "muted": False}
 history = deque(maxlen=HISTORY_SIZE)
 _config: dict = {}
 _config_lock = threading.Lock()
+_active = {"ws": None, "loop": None}  # live WebSocket, so a config change can force a reconnect
 
 
 # ── Config ────────────────────────────────────
@@ -72,6 +73,12 @@ def _health_url() -> str:
 def _is_configured() -> bool:
     with _config_lock:
         return bool(_config.get("host") and _config.get("secret"))
+
+
+def _reconnect():
+    ws, loop = _active["ws"], _active["loop"]
+    if ws is not None and loop is not None:
+        asyncio.run_coroutine_threadsafe(ws.close(), loop)
 
 
 # ── Config dialog ─────────────────────────────
@@ -187,7 +194,7 @@ def add_to_history(text: str):
 def _open_config(icon, item):
     threading.Thread(
         target=show_config_dialog,
-        kwargs={"on_save": lambda: print("Config updated, reconnecting on next cycle...")},
+        kwargs={"on_save": lambda: (print("Config updated, reconnecting..."), _reconnect())},
         daemon=True,
     ).start()
 
@@ -265,6 +272,7 @@ async def listen():
 
                 print("Connecting...")
                 async with session.ws_connect(_ws_url()) as ws:
+                    _active["ws"], _active["loop"] = ws, asyncio.get_running_loop()
                     status["connected"] = True
                     tray_icon.icon = create_icon_image("green")
                     tray_icon.update_menu()
