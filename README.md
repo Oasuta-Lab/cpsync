@@ -140,6 +140,9 @@ Tray vs. window: the app uses the system tray when the desktop offers one (KDE, 
 GNOME **with** the [AppIndicator extension](https://extensions.gnome.org/extension/615/appindicator-support/)).
 Without a tray it falls back to a small window with the same controls: connection status,
 **Recent** list (click to copy), **Mute notifications**, **Configure…**, **Quit**.
+Closing that window only hides it: CpSync keeps running in the background. Launch CpSync again
+(app menu or the AppImage) to bring the window back — it reuses the running instance instead of
+starting a second one. **Quit** is the only way to stop it.
 Saving the config reconnects immediately to the new server/room.
 
 Unless muted, every incoming item triggers a desktop notification with a "Copy again" button and

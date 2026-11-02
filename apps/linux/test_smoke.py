@@ -20,6 +20,8 @@ app._config.update(app._load_config())
 assert app._is_configured() and app._ws_url() == "wss://h.example.com/ws?room=s"
 
 ui = app.Ui()
+server = app.single_instance(ui.show_window)
+assert server is not None and app.single_instance(ui.show_window) is None, "second launch must be refused"
 assert ui.status_label.text() == "🔴 Disconnected"
 for text in ("hello", "hello", "world"):
     app.bridge.received.emit(text)
