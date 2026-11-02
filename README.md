@@ -106,7 +106,7 @@ On first launch (or whenever `config.json` is missing/incomplete) a dialog asks 
   no path. The app builds `wss://<host>/ws?room=<secret>` itself.
 - **Room secret** — must match the iOS app's room name exactly.
 
-Settings are saved next to the script (or the `.exe`) as `config.json`, which is git-ignored.
+Settings are saved to `%APPDATA%\CpSync\config.json`, so they survive restarts and updates.
 
 Once running, it lives entirely in the system tray:
 
@@ -114,7 +114,7 @@ Once running, it lives entirely in the system tray:
   red (disconnected, retrying every 5s).
 - Right-click the icon for the menu: live connection status, **Recent** (click any of the last
   10 synced items to copy it again), **Mute notifications**, **Configure…** (reopen the setup
-  dialog), and **Quit**.
+  dialog; saving reconnects immediately to the new server/room), and **Quit**.
 - Unless muted, a toast notification (with a "Copy again" action) and a system beep fire every
   time new clipboard content arrives from iOS.
 
@@ -140,7 +140,15 @@ Tray vs. window: the app uses the system tray when the desktop offers one (KDE, 
 GNOME **with** the [AppIndicator extension](https://extensions.gnome.org/extension/615/appindicator-support/)).
 Without a tray it falls back to a small window with the same controls: connection status,
 **Recent** list (click to copy), **Mute notifications**, **Configure…**, **Quit**.
-Notifications go through the desktop's notification daemon and carry a "Copy again" button.
+Saving the config reconnects immediately to the new server/room.
+
+Unless muted, every incoming item triggers a desktop notification with a "Copy again" button and
+a system sound (`message-new-instant` from the freedesktop sound theme, played with `pw-play`,
+`paplay` or `canberra-gtk-play`, whichever is installed). Recopying an item plays a shorter sound.
+No sound? Check the *Alert sounds* volume in your desktop's sound settings.
+
+> **AppImageLauncher users:** on first run it moves the AppImage to `~/Applications/` and adds a
+> menu entry. Launch it from there afterwards, and quit the old instance before running a new build.
 
 Build the AppImage locally:
 
@@ -148,6 +156,7 @@ Build the AppImage locally:
 cd apps/linux
 pip install -r requirements.txt pyinstaller
 ./build-appimage.sh          # needs wl-copy and appimagetool on PATH (or $WL_COPY / $APPIMAGETOOL)
+python test_smoke.py         # offscreen sanity check, also run in CI before each release
 ```
 
 ## Releases
