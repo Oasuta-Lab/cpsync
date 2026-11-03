@@ -23,6 +23,7 @@ os.environ.setdefault("QT_QPA_PLATFORM", "wayland;xcb")
 
 from PySide6.QtCore import QObject, Qt, Signal  # noqa: E402
 from PySide6.QtGui import QAction, QColor, QIcon, QPainter, QPainterPath, QPixmap  # noqa: E402
+from PySide6.QtNetwork import QLocalServer, QLocalSocket  # noqa: E402
 from PySide6.QtWidgets import (  # noqa: E402
     QApplication, QCheckBox, QDialog, QDialogButtonBox, QFormLayout, QHBoxLayout,
     QLabel, QLineEdit, QListWidget, QListWidgetItem, QMenu, QPushButton,
@@ -37,6 +38,7 @@ BUNDLE_DIR = Path(getattr(sys, "_MEIPASS", Path(__file__).parent))
 HISTORY_SIZE = 10
 NOTIF_BUS, NOTIF_PATH = "org.freedesktop.Notifications", "/org/freedesktop/Notifications"
 SOUND_DIR = Path("/usr/share/sounds/freedesktop/stereo")
+INSTANCE_NAME = "cpsync"  # local socket: a second launch pokes the running instance instead of starting
 
 status = {"connected": False, "muted": False}
 history = deque(maxlen=HISTORY_SIZE)
@@ -241,15 +243,30 @@ class Bridge(QObject):
 bridge = Bridge()
 
 
+def single_instance(on_second_launch) -> QLocalServer | None:
+    """Listening server for this instance, or None when another one is already running (it got poked)."""
+    sock = QLocalSocket()
+    sock.connectToServer(INSTANCE_NAME)
+    if sock.waitForConnected(500):
+        return None
+    QLocalServer.removeServer(INSTANCE_NAME)  # stale socket left by a crash
+    server = QLocalServer()
+
+    def _poked():
+        server.nextPendingConnection()
+        on_second_launch()
+
+    server.newConnection.connect(_poked)
+    server.listen(INSTANCE_NAME)
+    return server
+
+
 class Window(QWidget):
-    hide_on_close = False
+    """Closing hides: CpSync keeps syncing in the background. Quit is explicit (button / tray)."""
 
     def closeEvent(self, event):
-        if self.hide_on_close:
-            event.ignore()
-            self.hide()
-        else:
-            QApplication.quit()
+        event.ignore()
+        self.hide()
 
 
 class Ui(QObject):
@@ -290,9 +307,9 @@ class Ui(QObject):
             self.tray.setContextMenu(self.menu)
             self.tray.activated.connect(self._tray_activated)
             self.tray.show()
-            self.window.hide_on_close = True
         else:
-            print("No system tray found (GNOME needs the AppIndicator extension); using a window.")
+            print("No system tray found (GNOME needs the AppIndicator extension); using a window.\n"
+                  "Closing it keeps CpSync running in the background; launch CpSync again to bring it back.")
             self.window.show()
 
         bridge.connected.connect(self.set_connected)
@@ -302,6 +319,11 @@ class Ui(QObject):
     def _tray_activated(self, reason):
         if reason == QSystemTrayIcon.ActivationReason.Trigger:
             self.window.setVisible(not self.window.isVisible())
+
+    def show_window(self):
+        self.window.show()
+        self.window.raise_()
+        self.window.activateWindow()
 
     @staticmethod
     def recall(text: str):
@@ -357,7 +379,7 @@ class Ui(QObject):
         m.addSeparator()
         m.addAction(self.mute_action)
         m.addAction("Configure…", self.configure)
-        m.addAction("Show window", self.window.show)
+        m.addAction("Show window", self.show_window)
         m.addAction("Quit", QApplication.quit)
 
     @staticmethod
@@ -427,6 +449,11 @@ if __name__ == "__main__":
     app.setApplicationName("CpSync")
     app.setDesktopFileName("cpsync")
     app.setQuitOnLastWindowClosed(False)
+
+    instance = single_instance(lambda: ui.show_window())  # `ui` is bound below, looked up on each poke
+    if instance is None:
+        print("CpSync is already running; showing its window instead.")
+        sys.exit(0)
 
     with _config_lock:
         _config = _load_config()
